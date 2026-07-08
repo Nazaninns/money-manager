@@ -1,0 +1,14 @@
+﻿# Ignore personal docs
+/MENTOR.md
+/MISTAKES.md
+/WHY.md
+
+# Build
+**/bin/
+**/obj/
+
+# Rider
+.idea/
+
+# Logs
+*.log
