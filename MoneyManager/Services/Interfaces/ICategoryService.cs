@@ -5,5 +5,6 @@ namespace MoneyManager.Services.Interfaces;
 
 public interface ICategoryService
 {
-    Task<Category> CreateCategory(CreateDto createDto);
+    Task<ResponseDTO> Create(CreateDto createDto);
+    Task<ResponseDTO?> GetById(int id);
 }

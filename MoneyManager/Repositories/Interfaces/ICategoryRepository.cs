@@ -5,7 +5,8 @@ namespace MoneyManager.Repositories.Interfaces;
 
 public interface ICategoryRepository
 {
-    Task<Category>  Add(Category category);
+    Task<Category> Add(Category category);
     Task<IEnumerable<Category>> GetAll();
+    Task<Category?> GetById(int id);
     Task SaveChanges();
 }
