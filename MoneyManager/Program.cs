@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MoneyManager.Data;
+using MoneyManager.Repositories;
+using MoneyManager.Repositories.Interfaces;
+using MoneyManager.Services;
+using MoneyManager.Services.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,10 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
+//controller
+builder.Services.AddControllers();
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+//DI
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 
