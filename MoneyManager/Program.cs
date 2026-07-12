@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoneyManager.Data;
+using MoneyManager.DTOs.Common;
 using MoneyManager.Repositories;
 using MoneyManager.Repositories.Interfaces;
 using MoneyManager.Services;
@@ -14,7 +16,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 //controller
 builder.Services.AddControllers()
-    .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
+    .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull)
+    .ConfigureApiBehaviorOptions(options =>
+        {
+            options.InvalidModelStateResponseFactory = context =>
+            {
+                var errorMessage = string.Join(" | ", context.ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+                var customRes = ApiResponse<object>.Failure(message: errorMessage);
+                return new BadRequestObjectResult(customRes);
+            };
+        }
+        )
+    ;
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 //DI
 builder.Services.AddDbContext<AppDbContext>(options => 
