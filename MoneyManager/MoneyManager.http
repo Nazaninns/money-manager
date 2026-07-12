@@ -1,6 +1,22 @@
 @MoneyManager_HostAddress = http://localhost:5224
 
-GET {{MoneyManager_HostAddress}}/weatherforecast/
+### 1. Create a New Category
+POST {{MoneyManager_HostAddress}}/api/category
+Content-Type: application/json
 Accept: application/json
 
-###
+{
+  "title": "Food"
+}
+
+### 2. Get Category By ID (Valid ID)
+GET {{MoneyManager_HostAddress}}/api/category/1
+Accept: application/json
+
+### 3. Get Category By ID (Invalid / Non-existent ID)
+GET {{MoneyManager_HostAddress}}/api/category/999
+Accept: application/json
+
+### 4. Delete Category (Soft Delete)
+DELETE {{MoneyManager_HostAddress}}/api/category/1
+Accept: application/json
