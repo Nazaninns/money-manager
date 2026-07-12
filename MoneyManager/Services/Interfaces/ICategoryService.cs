@@ -7,4 +7,5 @@ public interface ICategoryService
 {
     Task<ResponseDTO> Create(CreateDto createDto);
     Task<ResponseDTO?> GetById(int id);
+    Task<bool> Delete(int id);
 }

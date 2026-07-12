@@ -31,7 +31,6 @@ public class CategoryRepository:ICategoryRepository
     public async Task<Category?> GetById(int id)
     {
         return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.DeletedAt == null);
-        
     }
 
     public async Task SaveChanges()

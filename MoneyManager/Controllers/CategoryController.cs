@@ -40,4 +40,14 @@ public class CategoryController : ControllerBase
 
         return Ok(ApiResponse<ResponseDTO>.Success(data: category));
     }
+
+    //Delete
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        bool success = await _categoryService.Delete(id);
+        if (!success)
+            return NotFound(ApiResponse<object>.Failure(message: "Category not found or already deleted."));
+        return Ok(ApiResponse<object>.Success(data: null, message: "Category deleted successfully"));
+    }
 }

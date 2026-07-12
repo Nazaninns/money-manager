@@ -43,4 +43,13 @@ public class CategoryService : ICategoryService
                 Title = category.Title,
             };
     }
+
+    public async Task<bool> Delete(int id)
+    {
+        var category =await _repository.GetById(id);
+        if (category is null) return false;
+        category.DeletedAt = DateTime.UtcNow;
+        await _repository.SaveChanges();
+        return true;
+    }
 }
