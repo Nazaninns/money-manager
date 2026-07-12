@@ -40,6 +40,14 @@ public class CategoryController : ControllerBase
 
         return Ok(ApiResponse<ResponseDTO>.Success(data: category));
     }
+    
+    //Get all
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var categories = await _categoryService.GetAll();
+        return Ok(ApiResponse<IEnumerable<ResponseDTO>>.Success(data: categories));
+    }
 
     //Delete
     [HttpDelete("{id}")]

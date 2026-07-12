@@ -43,6 +43,16 @@ public class CategoryService : ICategoryService
                 Title = category.Title,
             };
     }
+    
+    public async Task<IEnumerable<ResponseDTO>> GetAll()
+    {
+        var categories = await _repository.GetAll();
+        return categories.Select(c => new ResponseDTO()
+        {
+            Id = c.Id,
+            Title = c.Title,
+        }).ToList();
+    }
 
     public async Task<bool> Delete(int id)
     {

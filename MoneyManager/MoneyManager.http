@@ -20,3 +20,7 @@ Accept: application/json
 ### 4. Delete Category (Soft Delete)
 DELETE {{MoneyManager_HostAddress}}/api/category/1
 Accept: application/json
+
+### 5. Get All Active Categories
+GET {{MoneyManager_HostAddress}}/api/category
+Accept: application/json
