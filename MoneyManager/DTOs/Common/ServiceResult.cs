@@ -3,7 +3,7 @@
 public class ServiceResult
 {
     public bool IsSuccess { get; private set; }
-    public string ErrorMessage { get; private set; }
+    public string ErrorMessage { get; private set; } = string.Empty;
     public bool IsNotFound { get; private set; }
 
     public static ServiceResult Success() => new() { IsSuccess = true };
