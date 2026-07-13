@@ -28,3 +28,7 @@ Accept: application/json
 ### 6. Update Category
 PUT {{MoneyManager_HostAddress}}/api/category/1
 Content-Type: application/json
+
+{
+  "title" : "food"
+}

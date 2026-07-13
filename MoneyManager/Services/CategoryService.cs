@@ -16,8 +16,11 @@ public class CategoryService : ICategoryService
         _repository = repository;
     }
 
-    public async Task<ResponseDTO> Create(CreateDto createDto)
+    public async Task<ServiceResult<ResponseDTO>> Create(CreateDto createDto)
     {
+        var titleExists = await _repository.ExistsByTitle(createDto.Title);
+        if (titleExists)
+            return ServiceResult<ResponseDTO>.Failure($"A category with the title {createDto.Title} already exists.");
         var category = new Category
         {
             Title = createDto.Title,
@@ -26,33 +29,35 @@ public class CategoryService : ICategoryService
         };
         await _repository.Add(category);
         await _repository.SaveChanges();
-        return new ResponseDTO()
+        var resDto = new ResponseDTO()
         {
             Id = category.Id,
             Title = category.Title,
         };
+        return ServiceResult<ResponseDTO>.Success(data: resDto);
     }
 
-    public async Task<ResponseDTO?> GetById(int id)
+    public async Task<ServiceResult<ResponseDTO>> GetById(int id)
     {
         var category = await _repository.GetById(id);
-        return category == null
-            ? null
-            : new ResponseDTO()
+        if (category is null) return ServiceResult<ResponseDTO>.NotFound($"Category not found");
+        var res = new ResponseDTO()
             {
                 Id = category.Id,
                 Title = category.Title,
             };
+        return ServiceResult<ResponseDTO>.Success(res);
     }
 
-    public async Task<IEnumerable<ResponseDTO>> GetAll()
+    public async Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll()
     {
         var categories = await _repository.GetAll();
-        return categories.Select(c => new ResponseDTO()
+        var res =  categories.Select(c => new ResponseDTO()
         {
             Id = c.Id,
             Title = c.Title,
         }).ToList();
+        return ServiceResult<IEnumerable<ResponseDTO>>.Success(res);    
     }
 
     public async Task<bool> Delete(int id)
@@ -64,13 +69,24 @@ public class CategoryService : ICategoryService
         return true;
     }
 
-    public async Task<ServiceResult> Update(UpdateDto updateDto, int id)
+    public async Task<ServiceResult<ResponseDTO>> Update(UpdateDto updateDto, int id)
     {
         var category = await _repository.GetById(id);
-        if (category is null) return ServiceResult.NotFound($"Category not found");
+        if (category is null) return ServiceResult<ResponseDTO>.NotFound($"Category not found");
+        var titleExists = await _repository.ExistsByTitle(updateDto.Title);
+
+        if (titleExists &&
+            !string.Equals(category.Title, updateDto.Title))
+            return ServiceResult<ResponseDTO>.Failure($"Category with the title {updateDto.Title} already exists.");
+
         category.Title = updateDto.Title;
         category.UpdatedAt = DateTime.UtcNow;
         await _repository.SaveChanges();
-        return ServiceResult.Success();
+        var resDto = new ResponseDTO
+        {
+            Id = category.Id,
+            Title = category.Title,
+        };
+        return ServiceResult<ResponseDTO>.Success(resDto);
     }
 }

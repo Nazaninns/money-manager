@@ -6,9 +6,9 @@ namespace MoneyManager.Services.Interfaces;
 
 public interface ICategoryService
 {
-    Task<ResponseDTO> Create(CreateDto createDto);
-    Task<ResponseDTO?> GetById(int id);
-    Task<IEnumerable<ResponseDTO>> GetAll();
+    Task<ServiceResult<ResponseDTO>> Create(CreateDto createDto);
+    Task<ServiceResult<ResponseDTO>> GetById(int id);
+    Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll();
     Task<bool> Delete(int id);
-    Task<ServiceResult> Update(UpdateDto updateDto, int id);
+    Task<ServiceResult<ResponseDTO>> Update(UpdateDto updateDto, int id);
 }
