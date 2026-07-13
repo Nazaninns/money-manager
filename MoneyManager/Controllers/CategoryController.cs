@@ -29,6 +29,22 @@ public class CategoryController : ControllerBase
             value: response
         );
     }
+    
+    //Update
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, UpdateDto dto)
+    {
+       var result = await _categoryService.Update(dto , id);
+       if (!result.IsSuccess)
+       {
+           if (result.IsNotFound)
+               return NotFound(ApiResponse<object>.Failure(message: result.ErrorMessage));
+           
+           return BadRequest(ApiResponse<object>.Failure(message: result.ErrorMessage));
+       }
+           
+       return Ok(ApiResponse<object>.Success(data: null, message: "Category updated successfully"));
+    }
 
     //Get by id
     [HttpGet("{id}")]

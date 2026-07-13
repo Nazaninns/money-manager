@@ -1,5 +1,6 @@
 ﻿using MoneyManager.Data;
 using MoneyManager.DTOs.Category;
+using MoneyManager.DTOs.Common;
 using MoneyManager.Models;
 using MoneyManager.Repositories.Interfaces;
 using MoneyManager.Services.Interfaces;
@@ -43,7 +44,7 @@ public class CategoryService : ICategoryService
                 Title = category.Title,
             };
     }
-    
+
     public async Task<IEnumerable<ResponseDTO>> GetAll()
     {
         var categories = await _repository.GetAll();
@@ -56,10 +57,20 @@ public class CategoryService : ICategoryService
 
     public async Task<bool> Delete(int id)
     {
-        var category =await _repository.GetById(id);
+        var category = await _repository.GetById(id);
         if (category is null) return false;
         category.DeletedAt = DateTime.UtcNow;
         await _repository.SaveChanges();
         return true;
+    }
+
+    public async Task<ServiceResult> Update(UpdateDto updateDto, int id)
+    {
+        var category = await _repository.GetById(id);
+        if (category is null) return ServiceResult.NotFound($"Category not found");
+        category.Title = updateDto.Title;
+        category.UpdatedAt = DateTime.UtcNow;
+        await _repository.SaveChanges();
+        return ServiceResult.Success();
     }
 }

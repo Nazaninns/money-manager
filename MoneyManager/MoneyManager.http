@@ -24,3 +24,7 @@ Accept: application/json
 ### 5. Get All Active Categories
 GET {{MoneyManager_HostAddress}}/api/category
 Accept: application/json
+
+### 6. Update Category
+PUT {{MoneyManager_HostAddress}}/api/category/1
+Content-Type: application/json
