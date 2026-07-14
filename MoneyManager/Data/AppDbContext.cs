@@ -18,6 +18,6 @@ public class AppDbContext : DbContext
              .HasMany(c => c.Expenses)
              .WithOne(e => e.Category)
              .HasForeignKey(e => e.CategoryId)
-             .OnDelete(DeleteBehavior.Restrict);;
+             .OnDelete(DeleteBehavior.Restrict);
      }
 }
