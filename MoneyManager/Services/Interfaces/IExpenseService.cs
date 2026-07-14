@@ -8,4 +8,5 @@ public interface IExpenseService
     Task<ServiceResult<ResponseDTO>> Create(CreateDTO createDto);
     Task<ServiceResult<ResponseDTO>> Update(UpdateDTO updateDto , int id);
     Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll(QueryParameterDTO queryParameterDto);
+    Task<ServiceResult<object?>> Delete(int id);
 }

@@ -38,4 +38,9 @@ public class ExpenseRepository: IExpenseRepository
             .Take(pageSize)
             .ToListAsync();
     }
+
+    public void Delete(Expense expense)
+    {
+        _context.Expenses.Remove(expense);
+    }
 }

@@ -87,4 +87,14 @@ public class ExpenseService : IExpenseService
         }).ToList();
         return ServiceResult<IEnumerable<ResponseDTO>>.Success(res);
     }
+
+    public async Task<ServiceResult<object?>> Delete(int id)
+    {
+        var expense = await _repository.GetById(id);
+        if (expense is null)
+            return ServiceResult<object?>.NotFound("Expense not found.");
+        _repository.Delete(expense);
+        await _repository.SaveChanges();
+        return ServiceResult<object?>.Success(null);
+    }
 }

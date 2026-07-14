@@ -46,9 +46,25 @@ public class ExpenseController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery]QueryParameterDTO queryParameter)
+    public async Task<IActionResult> GetAll([FromQuery] QueryParameterDTO queryParameter)
     {
         var result = await _expenseService.GetAll(queryParameterDto: queryParameter);
         return Ok(ApiResponse<IEnumerable<ResponseDTO>>.Success(data: result.Data));
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _expenseService.Delete(id);
+
+        if (!result.IsSuccess)
+        {
+            if (result.IsNotFound)
+                return NotFound(ApiResponse<object>.Failure(result.ErrorMessage));
+            
+            return BadRequest(ApiResponse<object>.Failure(result.ErrorMessage));
+        }
+        
+        return Ok(ApiResponse<object?>.Success(data: null, message: "Expense deleted successfully."));
     }
 }
