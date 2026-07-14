@@ -44,4 +44,11 @@ public class ExpenseController : ControllerBase
 
         return Ok(ApiResponse<ResponseDTO>.Success(data: result.Data, message: "Expense updated successfully"));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery]QueryParameterDTO queryParameter)
+    {
+        var result = await _expenseService.GetAll(queryParameterDto: queryParameter);
+        return Ok(ApiResponse<IEnumerable<ResponseDTO>>.Success(data: result.Data));
+    }
 }

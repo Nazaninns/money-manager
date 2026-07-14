@@ -32,3 +32,12 @@ Content-Type: application/json
 {
   "title" : "food"
 }
+
+
+### Get Expenses - Page 1 with Size 2
+GET {{MoneyManager_HostAddress}}/api/expense?pageNumber=1&pageSize=2
+Accept: application/json
+
+### Get Expenses - Page 2 with Size 2
+GET {{MoneyManager_HostAddress}}/api/expense?pageNumber=2&pageSize=2
+Accept: application/json

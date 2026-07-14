@@ -58,8 +58,8 @@ public class ExpenseService : IExpenseService
             var category = await _categoryRepository.GetById(id: updateDto.CategoryId.Value);
             if (category is null)
                 return ServiceResult<ResponseDTO>.NotFound("Category not found.");
-            
-            expense.CategoryId = updateDto.CategoryId;  
+
+            expense.CategoryId = updateDto.CategoryId;
         }
 
         if (updateDto.Amount.HasValue)
@@ -74,5 +74,17 @@ public class ExpenseService : IExpenseService
             CategoryId = expense.CategoryId,
         };
         return ServiceResult<ResponseDTO>.Success(resDto);
+    }
+
+    public async Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll(QueryParameterDTO queryParameterDto)
+    {
+        IEnumerable<Expense> expenses = await _repository.GetAll(pageNumber: queryParameterDto.PageNumber,
+            pageSize: queryParameterDto.PageSize);
+        var res = expenses.Select(e => new ResponseDTO()
+        {
+            Id = e.Id,
+            Amount = e.Amount,
+        }).ToList();
+        return ServiceResult<IEnumerable<ResponseDTO>>.Success(res);
     }
 }

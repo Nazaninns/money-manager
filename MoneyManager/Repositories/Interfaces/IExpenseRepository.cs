@@ -7,4 +7,5 @@ public interface IExpenseRepository
     Task<Expense> Add(Expense expense);
     Task SaveChanges();
     Task<Expense?> GetById(int id);
+    Task<IEnumerable<Expense>> GetAll(int pageNumber , int pageSize);
 }

@@ -1,4 +1,5 @@
-﻿using MoneyManager.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MoneyManager.Data;
 using MoneyManager.Models;
 using MoneyManager.Repositories.Interfaces;
 
@@ -27,5 +28,14 @@ public class ExpenseRepository: IExpenseRepository
     public async Task<Expense?> GetById(int id)
     {
         return await _context.Expenses.FindAsync(id);
+    }
+
+    public async Task<IEnumerable<Expense>> GetAll(int pageNumber , int pageSize)
+    {
+        return await _context.Expenses
+            .OrderByDescending(e => e.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
     }
 }
