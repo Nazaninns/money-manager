@@ -23,11 +23,25 @@ public class ExpenseController : ControllerBase
         if (!result.IsSuccess)
             return BadRequest(ApiResponse<object>.Failure(result.ErrorMessage));
 
-        var response = ApiResponse<ResponseDto>.Success(data: result.Data, message: "Expense created successfully");
+        var response = ApiResponse<ResponseDTO>.Success(data: result.Data, message: "Expense created successfully");
         return CreatedAtAction(
             "GetAll",
             routeValues: new { id = result.Data!.Id },
             value: response
         );
+    }
+
+    [HttpPatch("{id:int}")]
+    public async Task<IActionResult> Update(int id, UpdateDTO updateDto)
+    {
+        var result = await _expenseService.Update(updateDto: updateDto, id: id);
+        if (!result.IsSuccess)
+        {
+            if (result.IsNotFound)
+                return NotFound(ApiResponse<object>.Failure(result.ErrorMessage));
+            return BadRequest(ApiResponse<object>.Failure(result.ErrorMessage));
+        }
+
+        return Ok(ApiResponse<ResponseDTO>.Success(data: result.Data, message: "Expense updated successfully"));
     }
 }

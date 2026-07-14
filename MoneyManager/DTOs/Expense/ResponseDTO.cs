@@ -1,6 +1,6 @@
 ﻿namespace MoneyManager.DTOs.Expense;
 
-public class ResponseDto
+public class ResponseDTO
 {
    public int Id { get; set; }
    public decimal Amount { get; set; }

@@ -23,4 +23,9 @@ public class ExpenseRepository: IExpenseRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<Expense?> GetById(int id)
+    {
+        return await _context.Expenses.FindAsync(id);
+    }
 }
