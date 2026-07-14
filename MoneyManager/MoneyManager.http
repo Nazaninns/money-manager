@@ -34,10 +34,73 @@ Content-Type: application/json
 }
 
 
-### Get Expenses - Page 1 with Size 2
+### EXPENSES ENDPOINTS
+
+### 1. Create a New Expense (With Category)
+POST {{MoneyManager_HostAddress}}/api/expense
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": 150.50,
+  "categoryId": 2
+}
+
+### 2. Create a New Expense (Without Category - Nullable check)
+POST {{MoneyManager_HostAddress}}/api/expense
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": 45.00
+}
+
+### 3. Create a New Expense (Invalid Category ID - Should Fail 400/404)
+POST {{MoneyManager_HostAddress}}/api/expense
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": 200.00,
+  "categoryId": 999
+}
+
+### 4. Create a New Expense (Invalid Amount - Validation Fail)
+POST {{MoneyManager_HostAddress}}/api/expense
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": -10.00,
+  "categoryId": 2
+}
+
+### 5. Patch (Partial Update) - Only Amount
+PATCH {{MoneyManager_HostAddress}}/api/expense/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": 180.00
+}
+
+### 6. Patch (Partial Update) - Only Category
+PATCH {{MoneyManager_HostAddress}}/api/expense/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "categoryId": 2
+}
+
+### 7. Delete Expense (Hard Delete)
+DELETE {{MoneyManager_HostAddress}}/api/expense/2
+Accept: application/json
+
+### 8. Get Expenses - Page 1 with Size 2
 GET {{MoneyManager_HostAddress}}/api/expense?pageNumber=1&pageSize=2
 Accept: application/json
 
-### Get Expenses - Page 2 with Size 2
+### 9. Get Expenses - Page 2 with Size 2
 GET {{MoneyManager_HostAddress}}/api/expense?pageNumber=2&pageSize=2
 Accept: application/json
