@@ -1,0 +1,15 @@
+﻿# Ignore personal docs
+/MENTOR.md
+/MISTAKES.md
+/WHY.md
+/MoneyManager/appsettings.Development.json
+
+# Build
+**/bin/
+**/obj/
+
+# Rider
+.idea/
+
+# Logs
+*.log
