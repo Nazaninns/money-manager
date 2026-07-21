@@ -44,6 +44,9 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
+// builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<IUserRepository , UserRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
