@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoneyManager.DTOs.Common;
 using MoneyManager.DTOs.Expense;
 using MoneyManager.Services.Interfaces;
 
 namespace MoneyManager.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ExpenseController : ControllerBase

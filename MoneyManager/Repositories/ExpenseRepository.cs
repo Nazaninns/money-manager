@@ -30,9 +30,10 @@ public class ExpenseRepository: IExpenseRepository
         return await _context.Expenses.FindAsync(id);
     }
 
-    public async Task<IEnumerable<Expense>> GetAll(int pageNumber , int pageSize)
+    public async Task<IEnumerable<Expense>> GetAll(int userId,int pageNumber , int pageSize)
     {
         return await _context.Expenses
+            .Where(e => e.UserId == userId)
             .OrderByDescending(e => e.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)

@@ -104,3 +104,45 @@ Accept: application/json
 ### 9. Get Expenses - Page 2 with Size 2
 GET {{MoneyManager_HostAddress}}/api/expense?pageNumber=2&pageSize=2
 Accept: application/json
+
+
+### Auth Endpoints
+### 1. Register New User
+POST {{MoneyManager_HostAddress}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@example.com",
+  "password": "Password123!"
+}
+
+### 2. Register Duplicate User (Should Return BadRequest - Email taken)
+POST {{MoneyManager_HostAddress}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@example.com",
+  "password": "Password123!"
+}
+
+### 3. Login with Correct Credentials
+POST {{MoneyManager_HostAddress}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@example.com",
+  "password": "Password123!"
+}
+
+### 4. Login with Wrong Password (Should Fail)
+POST {{MoneyManager_HostAddress}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@example.com",
+  "password": "WrongPassword!"
+}

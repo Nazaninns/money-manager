@@ -22,9 +22,11 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
-    public async Task<IEnumerable<Category>> GetAll()
+    public async Task<IEnumerable<Category>> GetAll(int userId)
     {
-        return await _context.Categories.Where(c => c.DeletedAt == null)
+        return await _context.Categories
+            .Where(c => c.UserId == userId || c.UserId == null)
+            .Where(c => c.DeletedAt == null)
             .ToListAsync();
     }
 

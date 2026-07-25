@@ -10,11 +10,16 @@ public class ExpenseService : IExpenseService
 {
     private readonly IExpenseRepository _repository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly ICurrentUserService _currentUserService;
 
-    public ExpenseService(IExpenseRepository repository, ICategoryRepository categoryRepository)
+    public ExpenseService(
+        IExpenseRepository repository,
+        ICategoryRepository categoryRepository,
+        ICurrentUserService currentUserService)
     {
         _repository = repository;
         _categoryRepository = categoryRepository;
+        _currentUserService = currentUserService;
     }
 
     public async Task<ServiceResult<ResponseDTO>> Create(CreateDTO createDto)
@@ -33,6 +38,7 @@ public class ExpenseService : IExpenseService
         {
             Amount = createDto.Amount,
             CategoryId = createDto.CategoryId,
+            UserId = _currentUserService.GetUserId(),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -78,7 +84,8 @@ public class ExpenseService : IExpenseService
 
     public async Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll(QueryParameterDTO queryParameterDto)
     {
-        IEnumerable<Expense> expenses = await _repository.GetAll(pageNumber: queryParameterDto.PageNumber,
+        int currentUserId = _currentUserService.GetUserId();
+        IEnumerable<Expense> expenses = await _repository.GetAll(userId: currentUserId,pageNumber: queryParameterDto.PageNumber,
             pageSize: queryParameterDto.PageSize);
         var res = expenses.Select(e => new ResponseDTO()
         {
