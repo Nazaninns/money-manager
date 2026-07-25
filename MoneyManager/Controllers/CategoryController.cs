@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoneyManager.Data;
 using MoneyManager.DTOs.Category;
 using MoneyManager.DTOs.Common;
@@ -6,6 +7,7 @@ using MoneyManager.Services.Interfaces;
 
 namespace MoneyManager.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class CategoryController : ControllerBase

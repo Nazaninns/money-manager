@@ -10,10 +10,12 @@ namespace MoneyManager.Services;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
+    private readonly ICurrentUserService _currentUser;
 
-    public CategoryService(ICategoryRepository repository)
+    public CategoryService(ICategoryRepository repository, ICurrentUserService currentUser)
     {
         _repository = repository;
+        _currentUser = currentUser;
     }
 
     public async Task<ServiceResult<ResponseDTO>> Create(CreateDto createDto)
@@ -24,6 +26,7 @@ public class CategoryService : ICategoryService
         var category = new Category
         {
             Title = createDto.Title,
+            UserId = _currentUser.GetUserId(),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -51,7 +54,7 @@ public class CategoryService : ICategoryService
 
     public async Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll()
     {
-        var categories = await _repository.GetAll();
+        var categories = await _repository.GetAll(userId: _currentUser.GetUserId());
         var res =  categories.Select(c => new ResponseDTO()
         {
             Id = c.Id,
