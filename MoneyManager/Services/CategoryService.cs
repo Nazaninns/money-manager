@@ -45,22 +45,22 @@ public class CategoryService : ICategoryService
         var category = await _repository.GetById(id);
         if (category is null) return ServiceResult<ResponseDTO>.NotFound($"Category not found");
         var res = new ResponseDTO()
-            {
-                Id = category.Id,
-                Title = category.Title,
-            };
+        {
+            Id = category.Id,
+            Title = category.Title,
+        };
         return ServiceResult<ResponseDTO>.Success(res);
     }
 
     public async Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll()
     {
         var categories = await _repository.GetAll(userId: _currentUser.GetUserId());
-        var res =  categories.Select(c => new ResponseDTO()
+        var res = categories.Select(c => new ResponseDTO()
         {
             Id = c.Id,
             Title = c.Title,
         }).ToList();
-        return ServiceResult<IEnumerable<ResponseDTO>>.Success(res);    
+        return ServiceResult<IEnumerable<ResponseDTO>>.Success(res);
     }
 
     public async Task<bool> Delete(int id)
@@ -91,5 +91,12 @@ public class CategoryService : ICategoryService
             Title = category.Title,
         };
         return ServiceResult<ResponseDTO>.Success(resDto);
+    }
+
+    public async Task<ServiceResult<IEnumerable<SummaryDTO>>> GetSummary(SummaryQueryDTO summaryQuery)
+    {
+        int currentUserId = _currentUser.GetUserId();
+        var summaryData = await _repository.GetSummary(userId: currentUserId, summaryQuery: summaryQuery);
+        return ServiceResult<IEnumerable<SummaryDTO>>.Success(summaryData);
     }
 }

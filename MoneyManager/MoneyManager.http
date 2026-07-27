@@ -146,3 +146,12 @@ Accept: application/json
   "email": "user@example.com",
   "password": "WrongPassword!"
 }
+### Category Summary - Default
+GET {{MoneyManager_HostAddress}}/api/category/summary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwibmJmIjoxNzg1MTYyODMzLCJleHAiOjE3ODUyNDkyMzMsImlhdCI6MTc4NTE2MjgzMywiaXNzIjoiTW9uZXlNYW5hZ2VyQVBJIiwiYXVkIjoiTW9uZXlNYW5hZ2VyQ2xpZW50In0.zGkV5-exgKMY--5E3EwZJbtDavcF6NXP3CuGq_rYCAc
+Accept: application/json
+
+### Category Summary - Filtered
+GET {{MoneyManager_HostAddress}}/api/category/summary?TimePeriod=LastMonth&SortBy=Count&SortDirection=Ascending&PageNumber=1&PageSize=5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwibmJmIjoxNzg1MTYyMDEyLCJleHAiOjE3ODUxNjU2MTIsImlhdCI6MTc4NTE2MjAxMiwiaXNzIjoiTW9uZXlNYW5hZ2VyQVBJIiwiYXVkIjoiTW9uZXlNYW5hZ2VyQ2xpZW50In0.-qoCeSLCMOMZmQpv_JWARkf_UQ3RjiZtsRXqWxWjfFE
+Accept: application/json

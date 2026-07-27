@@ -78,4 +78,15 @@ public class CategoryController : ControllerBase
             return NotFound(ApiResponse<object>.Failure(message: "Category not found or already deleted."));
         return Ok(ApiResponse<object>.Success(data: null, message: "Category deleted successfully"));
     }
+
+    //Summary
+    [HttpGet("summary")]
+
+    public async Task<IActionResult> GetSummary([FromQuery] SummaryQueryDTO summaryQuery)
+    {
+        var result = await _categoryService.GetSummary(summaryQuery: summaryQuery);
+        if (!result.IsSuccess)
+            return BadRequest(ApiResponse<IEnumerable<SummaryDTO>>.Failure(message: result.ErrorMessage));
+        return Ok(ApiResponse<IEnumerable<SummaryDTO>>.Success(result.Data));
+    }
 }

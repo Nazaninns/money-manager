@@ -10,4 +10,5 @@ public interface ICategoryRepository
     Task<Category?> GetById(int id);
     Task SaveChanges();
     Task<bool> ExistsByTitle(string title);
+    Task<IEnumerable<SummaryDTO>> GetSummary(int userId, SummaryQueryDTO summaryQuery);
 }

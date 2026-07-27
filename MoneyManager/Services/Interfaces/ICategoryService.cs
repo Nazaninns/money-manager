@@ -11,4 +11,5 @@ public interface ICategoryService
     Task<ServiceResult<IEnumerable<ResponseDTO>>> GetAll();
     Task<bool> Delete(int id);
     Task<ServiceResult<ResponseDTO>> Update(UpdateDto updateDto, int id);
+    Task<ServiceResult<IEnumerable<SummaryDTO>>> GetSummary(SummaryQueryDTO summaryQuery);
 }
